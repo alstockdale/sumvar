@@ -1,0 +1,29 @@
+Package: sumvar
+Title: Summarise Continuous and Categorical Variables, Check for Duplicates and Missing Data
+Version: 0.1
+Authors@R: 
+    person("Alexander", "Stockdale", , "a.stockdale@liverpool.ac.uk", role = c("aut", "cre"),
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: sumvar is a collection of functions useful for summarising variables.
+  For continuous variables, the distribution of a single variable use dist_one()
+  To explore a continuous variable stratified by a grouping variable use dist_sum()
+  For a single categorical variable use tab1(), and a twoway table from two categorical variables- tab().  
+  dist_sum() and tab() include options for hypothesis tests.  
+  Explore duplicates with dup()) and missing values with miss().
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Imports: 
+    dplyr,
+    ggbeeswarm,
+    ggplot2,
+    magrittr,
+    patchwork,
+    rlang,
+    stats,
+    tibble,
+    tidyr
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
