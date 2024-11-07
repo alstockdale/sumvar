@@ -1,4 +1,6 @@
-This function speeds up everyday tasks for reviewing continuous and categorical variables.
+<h1> The sumvar package</h1>
+
+The sumvar package speeds up data analysis tasks, for reviewing continuous and categorical variables.
 sumvar aims to bring the ease and simplicity of the "sum" and "tab" functions from stata, to R. 
 
 To explore the distribution of a single continuous variable use <b>dist_one()</b>. <br>
