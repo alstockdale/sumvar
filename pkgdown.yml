@@ -1,0 +1,8 @@
+pandoc: 3.1.11
+pkgdown: 2.1.3
+pkgdown_sha: ~
+articles: {}
+last_built: 2025-06-08T10:11Z
+urls:
+  reference: https://alstockdale.github.io/sumvar/reference
+  article: https://alstockdale.github.io/sumvar/articles
