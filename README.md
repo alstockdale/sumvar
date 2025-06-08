@@ -1,16 +1,14 @@
 <h1> The sumvar package</h1>
 
-The sumvar package speeds up data analysis tasks, to explore and summarise the distribution of continuous and categorical variables.
-<b>sumvar </b> aims to bring the ease and simplicity of the "sum" and "tab" functions from stata, to R. 
+The sumvar package quickly explores continuous and categorical variables. <br>
+sumvar aims to bring the ease and simplicity of the "sum" and "tab" functions from stata, to R.
 
-To explore the distribution of a single continuous variable use <b>dist_one()</b>. <br>
-To explore a continuous variable stratified by a grouping variable use <b>dist_sum()</b>.
+  * **dist_sum()** is for exploring a continuous variable. Can stratify by a grouping variable, for example: `df %>% dist_sum (var, group)`.
+  * **dist_date()** is for dates, use the same way as **dist_sum()**.
+  * **tab1()** is to explore a single categorical variable, for example: `df %>% tab1(var)`
+  * **tab()** is for a twoway table from two categorical variables, for example: `df %>% tab(var1, var2)`.
+  * **dup()** explores duplicates and missing values, across a single variable, or a whole database
 
-To summarise a single categorical variable use <b>tab1()</b>, and for a twoway table from two categorical variables- use <b>tab(var1, var2)</b>. 
+Both **dist_sum()** and **tab()** include options for performing frequentist hypothesis tests, have a look at the help files.<p>
 
-Both <b>dist_sum()</b> and <b>tab()</b> include options for performing frequentist hypothesis tests.
-
-Explore duplicates with <b>dup()</b> and missing values with <b>miss()</b>.
-
-All functions are dplyr-friendly and accept the %>% pipe from a tibble or data frame, and output summaries as a tibble.
-Tibble outputs for all sumvar functions can be saved and manipulated.
+All functions are tidyverse/dplyr-friendly and accept the `%>%` pipe from a tibble or data frame, outputting results as a tibble. You can save and further manipulate outputs, e.g. `summary <- df %>% dist_sum(var)`

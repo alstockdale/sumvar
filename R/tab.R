@@ -1,3 +1,4 @@
+utils::globalVariables("N")
 #' Create a cross-tabulation of two categorial variables
 #' @description
 #' Creates a "n x n" cross-tabulation of two categorical variables, with row percentages.
@@ -17,6 +18,7 @@
 #' @importFrom dplyr tibble pull count mutate arrange bind_rows n desc rename group_by
 #'  where select
 #' @importFrom tidyr pivot_wider
+#' @importFrom utils globalVariables
 #' @examples
 #' example_data <- dplyr::tibble(id = 1:100, group1 = sample(c("a", "b", "c", "d"),
 #'                                                   size = 100, replace = TRUE),
@@ -25,8 +27,6 @@
 #' example_data$group1[sample(1:100, size = 10)] <- NA  # Replace 10 with missing
 #' tab(example_data, group1, group2)
 #' summary <- tab(example_data, group1, group2) # Save summary statistics as a tibble.
-#' # Note that this function accepts a pipe input
-#' # eg. example_data %>% tab(group)
 #' @export
 tab <- function(data, variable1, variable2, test = "none") {
   test <- as.character(substitute(test))
@@ -38,10 +38,10 @@ tab <- function(data, variable1, variable2, test = "none") {
     group_by({{ variable1 }}) %>%
     mutate(Percent = n / sum(n) * 100) %>%
     ungroup() %>%
-    rename(Frequency = n) %>%
-    select({{ variable1 }}, {{ variable2 }}, Frequency, Percent)
+    rename(N = n) %>%
+    select({{ variable1 }}, {{ variable2 }}, N, Percent)
   table_wide <- table_data %>%
-    pivot_wider(names_from = {{ variable2 }}, values_from = c(Frequency, Percent), names_sep = "_") %>%
+    pivot_wider(names_from = {{ variable2 }}, values_from = c(N, Percent), names_sep = "_") %>%
     arrange({{ variable1 }})
   table_wide <- table_wide %>%
     rename(!!as_label(enquo(variable1)) := {{ variable1 }})

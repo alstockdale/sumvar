@@ -2,7 +2,7 @@
 % Please edit documentation in R/dist_sum.R
 \name{dist_sum}
 \alias{dist_sum}
-\title{Explore a continuous variable, stratified by a grouping variable}
+\title{Explore a continuous variable.}
 \usage{
 dist_sum(data, var, by = NULL)
 }
@@ -38,6 +38,4 @@ example_data <- dplyr::tibble(id = 1:100, age = rnorm(100, mean = 30, sd = 10),
                              size = 100, replace = TRUE))
 dist_sum(example_data, age, sex)
 summary <- dist_sum(example_data, age, sex) # Save summary statistics as a tibble.
-# Note that this function accepts a pipe input
-# eg. example_data \%>\% dist_sum(age, group)
 }

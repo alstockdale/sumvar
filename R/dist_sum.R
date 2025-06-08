@@ -1,4 +1,4 @@
-#' Explore a continuous variable, stratified by a grouping variable
+#' Explore a continuous variable.
 #'
 #' @description
 #' Summarises the median, interquartile range, mean, standard deviation, confidence intervals of the mean and produces a density plot, stratified by a second grouping variable.
@@ -23,9 +23,10 @@
 #' @importFrom ggplot2 aes ggplot geom_boxplot geom_violin
 #'   geom_histogram geom_density labs theme_minimal scale_color_discrete scale_fill_discrete
 #' @importFrom stats median qt quantile sd qnorm aov as.formula chisq.test
-#'   fisher.test kruskal.test t.test wilcox.test
+#'   fisher.test kruskal.test t.test wilcox.test shapiro.test
 #' @importFrom rlang enquos as_label ':='
-#' @importFrom ggbeeswarm geom_beeswarm
+#' @importFrom lubridate is.Date is.POSIXct
+#' @importFrom patchwork wrap_plots
 #'
 #' @examples
 #' example_data <- dplyr::tibble(id = 1:100, age = rnorm(100, mean = 30, sd = 10),
@@ -37,10 +38,16 @@
 #'                              size = 100, replace = TRUE))
 #' dist_sum(example_data, age, sex)
 #' summary <- dist_sum(example_data, age, sex) # Save summary statistics as a tibble.
-#' # Note that this function accepts a pipe input
-#' # eg. example_data %>% dist_sum(age, group)
 #' @export
 dist_sum <- function(data, var, by = NULL) {
+  var_data <- dplyr::pull(data, {{ var }})
+  var_class <- class(var_data)
+  if (lubridate::is.Date(var_data) | lubridate::is.POSIXct(var_data)) {
+    stop(paste("Variable is a date, please use dist_date() instead."))
+  }
+  if (!is.numeric(var_data)) {
+    stop(paste("Variable is ", var_class, " and must be numeric for dist_sum."))
+  }
   # Check if grouping variable is missing
   if (missing(by)) {
     # Access the specified column as a numeric vector using curly-curly
@@ -72,7 +79,7 @@ dist_sum <- function(data, var, by = NULL) {
       ggplot2::labs(title = "Density Plot", x = deparse(substitute(var)), y = "Density") +
       ggplot2::theme_minimal()
 
-    print(histo_plot + density_plot)  # Print the combined plot
+    patchwork::wrap_plots(histo_plot, density_plot)  # Print the combined plot
 
     # Return a tibble with the results
     return(tibble(
@@ -86,7 +93,7 @@ dist_sum <- function(data, var, by = NULL) {
       ci_lower = ci_lower,
       ci_upper = ci_upper,
       min = min_value,
-      max = max_value
+      max = max_value,
     ))
   } else {
     # Grouped summary statistics

@@ -28,6 +28,4 @@ example_data <- dplyr::tibble(id = 1:100, group = sample(c("a", "b", "c", "d"),
 example_data$group[sample(1:100, size = 10)] <- NA  # Replace 10 with missing
 tab1(example_data, group)
 summary <- tab1(example_data, group) # Save summary statistics as a tibble.
-# Note that this function accepts a pipe input
-# eg. example_data \%>\% tab1(group)
 }

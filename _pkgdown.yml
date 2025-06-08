@@ -1,4 +1,5 @@
 url: https://alstockdale.github.io/sumvar/
 template:
+  logo: man/figures/logo.svg
   bootstrap: 5
 

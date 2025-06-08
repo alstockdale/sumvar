@@ -1,0 +1,114 @@
+---
+title: "Exploring data with sumvar"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Exploring data with sumvar}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7,
+  fig.height = 5
+)
+library(sumvar)
+library(ggplot2)
+library(dplyr)
+
+```
+
+# Introduction
+
+The **sumvar** package provides simple and easy to use tools for summarising continuous and categorical data, inspired by Stata's "sum" and "tab" commands. All functions are tidyverse/dplyr pipe-friendly and return tibbles.
+
+# Why use sumvar?
+
+* Simple one-line commands to explore variables for R users
+* Pipe-friendly tidyverse integration
+* Tabular summaries which can be stored as tibbles and used for downstream analysis.
+
+
+When I first moved from Stata to R about 5 years ago, the main thing I missed was the simplicity of the "sum" and "tab" functions to efficiently explore data. Most template code to perform these commands, in introductory R books or tutorials eg. https://r4ds.hadley.nz/data-tidy.html, takes typically 3-5 lines to replicate these functions in R. I couldn't find a package that could quite as simply and efficiently explore data. 
+
+Sumvar is fast and easy to use, and brings these variable summary functions to R.
+
+# Continuous Data
+
+We call **dist_sum()** to explore a continous variable. 
+
+The tibble output shows: the number of rows in the data, and number missing, the median, interquartile range (25th and 75th centiles), mean, the standard deviation, and 95% confidence intervals using the Wald method (normal approximation), and the minimum and maximum values.
+
+**Dist_sum()** will show a density plot and histogram for a single variable, or a grouped density plot when there is a grouping varialbe.
+
+You can save the output from dist_sum as a tibble and use the estimates for downstream analysis, eg.  `sum_df <- df %>% dist_sum(age, sex)`
+
+```{r continuous}
+# Example data
+set.seed(123)
+df <- tibble::tibble(
+  age = rnorm(100, mean = 50, sd = 20),
+  sex = sample(c("male", "female"), 100, replace = TRUE)) %>%
+  dplyr::mutate(age = dplyr::if_else(sex == "male", age + 10, age))
+
+# Call dist_sum
+df %>% dist_sum(age)
+df %>% dist_sum(age, sex)
+```
+
+# Dates
+
+To explore the distribution of dates, call **dist_date()** - it is similar to dist_sum. This can also be grouped by a second grouping variable. With a single date, a histogram is shown; when a grouping variable is also called, a density plot is shown.
+
+```{r dates}
+df3 <- tibble::tibble(
+  dates = as.Date("2022-01-01") + rnorm(n=100, sd=50, mean=0),
+  group = sample(c("A", "B"), 100, TRUE)) %>%
+  dplyr::mutate(dt = dplyr::case_when(group == "A" ~ dates + 10, TRUE ~ dates))
+
+df3 %>% dist_date(dates)
+df3 %>% dist_date(dates, group)
+```
+
+
+# Categorical Data
+
+**tab1()** produces a tibble showing the distribution of a categorical variable and illustrates using a horizontal bar chart. 
+
+```{r categorical}
+df2 <- tibble::tibble(
+  group = sample(LETTERS[1:3], 200, TRUE)
+)
+
+df2 %>% tab1(group)
+```
+
+
+# Check for duplicate and missing data
+
+To explore the proportion of duplicate values and missing values in a variable, pass it to **dup()**. 
+
+
+```{r duplicate}
+example_data <- dplyr::tibble(id = 1:200, age = round(rnorm(200, mean = 30, sd = 50), digits=0))
+example_data$age[sample(1:200, size = 15)] <- NA  # Replace 20 values with missing.
+
+example_data %>% dup(age)
+```
+
+
+If you send the whole database to **dup()**, it will produce a summary of duplicates and missingness in the whole database. **Dup()** illustrates with a stacked bar chart.
+
+```{r duplicate_all}
+example_data <- dplyr::tibble(age = round(rnorm(200, mean = 30, sd = 50), digits=0),
+                              sex = sample(c("Male", "Female"), 200, TRUE),
+                              favourite_colour = sample(c("Red", "Blue", "Purple"), 200, TRUE))
+example_data$age[sample(1:200, size = 15)] <- NA  # Replace 15 values with missing.
+example_data$sex[sample(1:200, size = 32)] <- NA  # Replace 32 values with missing.
+
+dup(example_data)
+```
+
+

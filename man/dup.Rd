@@ -2,9 +2,9 @@
 % Please edit documentation in R/dup.R
 \name{dup}
 \alias{dup}
-\title{Count the number of duplicates in a variable}
+\title{Explore duplicate and missing data}
 \usage{
-dup(data, var)
+dup(data, var = NULL)
 }
 \arguments{
 \item{data}{The data frame or tibble}
@@ -12,20 +12,23 @@ dup(data, var)
 \item{var}{The variable to assess}
 }
 \value{
-A tibble with the number of duplicates found, and the number of missing values (NA), together with percentages.
-Missing values are not considered as duplicates, and are excluded from the calculation of percentage of duplicate values.
+A tibble with the number and percentage of duplicate values found, and the number of missing values (NA), together with percentages.
 }
 \description{
-Provides an integer value for the number of duplicates found wihtin a variable
-
+Provides an integer value for the number of duplicates found within a variable
 The function accepts an input from a dplyr pipe "\%>\%" and outputs the results as a tibble.
 
 eg. example_data \%>\% dup(variable)
 }
 \examples{
-example_data <- dplyr::tibble(id = 1:200, age = round(rnorm(200, mean = 30, sd = 5), digits=0))
+example_data <- dplyr::tibble(id = 1:200, age = round(rnorm(200, mean = 30, sd = 50), digits=0))
 example_data$age[sample(1:200, size = 15)] <- NA  # Replace 15 values with missing.
 dup(example_data, age)
-# Note that this function accepts a pipe input
-# eg. example_data \%>\% dup(group)
+# It is also possible to pass a whole database to dup and it will explore all variables.
+example_data <- dplyr::tibble(age = round(rnorm(200, mean = 30, sd = 50), digits=0),
+                              sex = sample(c("Male", "Female"), 200, TRUE),
+                              favourite_colour = sample(c("Red", "Blue", "Purple"), 200, TRUE))
+example_data$age[sample(1:200, size = 15)] <- NA  # Replace 15 values with missing.
+example_data$sex[sample(1:200, size = 32)] <- NA  # Replace 32 values with missing.
+dup(example_data)
 }
