@@ -6,10 +6,19 @@
 \alias{sumvar-package}
 \title{sumvar: Summarise Continuous and Categorical Variables, Check for Duplicates and Missing Data}
 \description{
-sumvar is a collection of functions useful for summarising variables. For continuous variables, the distribution of a single variable use dist_one() To explore a continuous variable stratified by a grouping variable use dist_sum() For a single categorical variable use tab1(), and a twoway table from two categorical variables- tab(). dist_sum() and tab() include options for hypothesis tests. Explore duplicates with dup()) and missing values with miss().
+The sumvar package speeds up data analysis tasks, for reviewing continuous and categorical variables. sumvar aims to bring the ease and simplicity of the "sum" and "tab" functions from stata, to R. To explore the distribution of a single continuous variable use dist_one(). To explore a continuous variable stratified by a grouping variable use dist_sum(). To summarise a single categorical variable use tab1(), and for a twoway table from two categorical variables- use tab(). Both dist_sum() and tab() include options for performning frequestist hypothesis tests. Explore duplicates with dup() and missing values with miss(). All functions are tidyverse/dplyr-friendly and accept the %>% pipe from a tibble or data frame, and output summaries as a tibble. Tibble outputs for all sumvar functions can be saved and then manipulated.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/alstockdale/sumvar}
+  \item \url{https://alstockdale.github.io/sumvar/}
+  \item Report bugs at \url{https://github.com/alstockdale/sumvar/issues}
+}
+
 }
 \author{
-\strong{Maintainer}: Alexander Stockdale \email{a.stockdale@liverpool.ac.uk} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+\strong{Maintainer}: Alexander Stockdale \email{a.stockdale@liverpool.ac.uk}
 
 }
 \keyword{internal}

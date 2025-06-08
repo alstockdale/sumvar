@@ -2,15 +2,13 @@ Package: sumvar
 Title: Summarise Continuous and Categorical Variables, Check for Duplicates and Missing Data
 Version: 0.1
 Authors@R: 
-    person("Alexander", "Stockdale", , "a.stockdale@liverpool.ac.uk", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: sumvar is a collection of functions useful for summarising variables.
-  For continuous variables, the distribution of a single variable use dist_one()
-  To explore a continuous variable stratified by a grouping variable use dist_sum()
-  For a single categorical variable use tab1(), and a twoway table from two categorical variables- tab().  
-  dist_sum() and tab() include options for hypothesis tests.  
-  Explore duplicates with dup()) and missing values with miss().
-License: MIT + file LICENSE
+    person("Alexander", "Stockdale", , "a.stockdale@liverpool.ac.uk", role = c("aut", "cre"))
+Description: The sumvar package speeds up data analysis tasks, for reviewing continuous and categorical variables. sumvar aims to bring the ease and simplicity of the "sum" and "tab" functions from stata, to R.
+  To explore the distribution of a single continuous variable use dist_one().
+  To explore a continuous variable stratified by a grouping variable use dist_sum().
+  To summarise a single categorical variable use tab1(), and for a twoway table from two categorical variables- use tab(). Both dist_sum() and tab() include options for performning frequestist hypothesis tests.
+  Explore duplicates with dup() and missing values with miss().
+  All functions are tidyverse/dplyr-friendly and accept the %>% pipe from a tibble or data frame, and output summaries as a tibble. Tibble outputs for all sumvar functions can be saved and then manipulated.
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
@@ -27,3 +25,6 @@ Imports:
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+URL: https://github.com/alstockdale/sumvar, https://alstockdale.github.io/sumvar/
+BugReports: https://github.com/alstockdale/sumvar/issues
+License: MIT + file LICENSE

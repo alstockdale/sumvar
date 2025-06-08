@@ -12,6 +12,8 @@
 #'
 #' @importFrom magrittr %>%
 #' @importFrom dplyr tibble pull count mutate arrange bind_rows n desc rename
+#' @importFrom rlang enquos
+#' @importFrom ggplot2 aes ggplot geom_col geom_text coord_flip theme_minimal labs theme margin
 #' @examples
 #' example_data <- dplyr::tibble(id = 1:100, group = sample(c("a", "b", "c", "d"),
 #'                                                   size = 100, replace = TRUE))
@@ -22,21 +24,30 @@
 #' # eg. example_data %>% tab1(group)
 #' @export
 tab1 <- function(data, variable, dp = 1) {
-  # Calculate frequencies and percentages for categorical data
+  var_name <- rlang::as_label(rlang::enquo(variable))
   tab_data <- data %>%
-    count({{ variable }}) %>%
-    mutate(
-      Percent = n / sum(n) * 100  # Calculate as numeric first
+    dplyr::count({{ variable }}) %>%
+    dplyr::mutate(
+      Percent = n / sum(n) * 100
     ) %>%
-    arrange(desc(n)) %>%
-    rename(Frequency = n, Category = {{ variable }}) %>%
-    mutate(Category = as.character(Category))
-  total <- tibble(
+    dplyr::arrange(desc(n)) %>%
+    dplyr::rename(Frequency = n, Category = {{ variable }}) %>%
+    dplyr::mutate(Category = as.character(Category))
+  total <- tibble::tibble(
     Category = "Total",
     Frequency = sum(tab_data$Frequency),
     Percent = sum(tab_data$Percent)
   )
-  result <- bind_rows(tab_data, total) %>%
-    mutate(Percent = sprintf(paste0("%.", dp, "f"), Percent))
-  result
+  result <- dplyr::bind_rows(tab_data, total) %>%
+    dplyr::mutate(Percent = sprintf(paste0("%.", dp, "f"), Percent))  # separate column
+  freq_plot <- ggplot2::ggplot(tab_data, ggplot2::aes(x = reorder(Category, Percent), y = Percent)) +
+    ggplot2::geom_col(fill = "steelblue", width = 0.7) +
+    ggplot2::geom_text(ggplot2::aes(label = paste0(Frequency, " (", sprintf("%.1f", Percent), "%)")),
+              hjust = -0.1, size = 3.5) +
+    ggplot2::coord_flip(clip="off") +
+    ggplot2::labs(x = NULL, y = "Percent (%)", title = "Distribution of HBsAg") +
+    ggplot2::theme_minimal() +
+    ggplot2::theme(plot.margin = ggplot2::margin(5, 60, 5, 5))  # top, right, bottom, left (in points)
+  print(freq_plot)
+  print(result)
 }
