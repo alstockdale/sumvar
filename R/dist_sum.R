@@ -79,7 +79,8 @@ dist_sum <- function(data, var, by = NULL) {
       ggplot2::labs(title = "Density Plot", x = deparse(substitute(var)), y = "Density") +
       ggplot2::theme_minimal()
 
-    patchwork::wrap_plots(histo_plot, density_plot)  # Print the combined plot
+    print(patchwork::wrap_plots(histo_plot, density_plot))  # Print the combined plot
+
 
     # Return a tibble with the results
     return(tibble(
