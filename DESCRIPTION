@@ -1,29 +1,33 @@
 Package: sumvar
-Title: Summarise Continuous and Categorical Variables, Check for Duplicates and Missing Data
-Version: 0.1
+Title: Summarise Continuous, Date and Categorical Variables, Check for Duplicates and Missing Data
+Version: 0.2
 Authors@R: 
     person("Alexander", "Stockdale", , "a.stockdale@liverpool.ac.uk", role = c("aut", "cre"))
-Description: The sumvar package quickly explores continuous and categorical variables. sumvar aims to bring the ease and simplicity of the "sum" and "tab" functions from stata, to R. 
+Description: Explore continuous, date and categorical variables. 'sumvar' aims to bring the ease and simplicity of the "sum" and "tab" functions from 'stata'. 
+SystemRequirements: LaTeX
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
-Imports: 
+Imports:
+    cli,
     dplyr,
     ggplot2,
+    kableExtra,
+    knitr,
     lubridate,
     magrittr,
     patchwork,
     purrr,
     rlang,
+    rmarkdown,
     scales,
     stats,
     tibble,
     tidyr,
     utils
 Suggests: 
-    knitr,
-    rmarkdown,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    tinytex
 Config/testthat/edition: 3
 URL: https://github.com/alstockdale/sumvar, https://alstockdale.github.io/sumvar/
 BugReports: https://github.com/alstockdale/sumvar/issues

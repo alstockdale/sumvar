@@ -23,7 +23,7 @@ And an Anova test (p_anova) and Kruskal-Wallis test (p_kruskal) when there are t
 \description{
 Summarises the median, interquartile range, mean, standard deviation, confidence intervals of the mean and produces a density plot, stratified by a second grouping variable.
 
-Provides frequentist hypothesis tests for comparison between the groups: T test and Wilcoxon rank sum for 2 groups,
+Provides frequentist hypothesis tests for comparison between groups: T test and Wilcoxon rank sum for 2 groups,
 Anova and Kruskall wallis test for 3 or more groups.
 
 The function accepts an input from a dplyr pipe "\%>\%" and outputs the results as a tibble.

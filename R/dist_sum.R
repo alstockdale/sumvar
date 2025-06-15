@@ -3,7 +3,7 @@
 #' @description
 #' Summarises the median, interquartile range, mean, standard deviation, confidence intervals of the mean and produces a density plot, stratified by a second grouping variable.
 #'
-#' Provides frequentist hypothesis tests for comparison between the groups: T test and Wilcoxon rank sum for 2 groups,
+#' Provides frequentist hypothesis tests for comparison between groups: T test and Wilcoxon rank sum for 2 groups,
 #' Anova and Kruskall wallis test for 3 or more groups.
 #'
 #' The function accepts an input from a dplyr pipe "%>%" and outputs the results as a tibble.
@@ -72,7 +72,7 @@ dist_sum <- function(data, var, by = NULL) {
     plot_data <- tibble(values = values)
     histo_plot <- ggplot2::ggplot(plot_data, ggplot2::aes(x = values)) +
       ggplot2::geom_histogram(fill = "skyblue", color = "black", alpha = 0.7) +
-      ggplot2::labs(title = "Histogram", x = deparse(substitute(var)), y = "Density") +
+      ggplot2::labs(title = "Histogram", x = deparse(substitute(var)), y = "Frequency") +
       ggplot2::theme_minimal()
     density_plot <- ggplot2::ggplot(plot_data, ggplot2::aes(x = values)) +
       ggplot2::geom_density(color = "black", alpha = 0.7) +

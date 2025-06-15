@@ -38,7 +38,7 @@ tab1 <- function(data, variable, dp = 1) {
     Percent = sum(tab_data$Percent)
   )
   result <- dplyr::bind_rows(tab_data, total) %>%
-    dplyr::mutate(Percent = sprintf(paste0("%.", dp, "f"), Percent))  # separate column
+    dplyr::mutate(Percent = sprintf(paste0("%.", dp, "f"), Percent))
   freq_plot <- ggplot2::ggplot(tab_data, ggplot2::aes(x = stats::reorder(Category, Percent), y = Percent)) +
     ggplot2::geom_col(fill = "steelblue", width = 0.7) +
     ggplot2::geom_text(ggplot2::aes(label = paste0(Frequency, " (", sprintf("%.1f", Percent), "%)")),
@@ -46,7 +46,10 @@ tab1 <- function(data, variable, dp = 1) {
     ggplot2::coord_flip(clip="off") +
     ggplot2::labs(x = NULL, y = "Percent (%)", title = paste("Distribution of", var_name)) +
     ggplot2::theme_minimal() +
-    ggplot2::theme(plot.margin = ggplot2::margin(5, 60, 5, 5))  # top, right, bottom, left (in points)
+    ggplot2::theme(plot.margin = ggplot2::margin(5, 60, 5, 5))
   print(freq_plot)
-  print(result)
+  if (!isTRUE(getOption("knitr.in.progress"))) {
+    print(result)
+  }
+  invisible(result)
 }
