@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">sumvar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -174,20 +174,13 @@ a categorical variable and illustrates using a horizontal bar chart.</p>
 <span></span>
 <span><span class="va">df2</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/tab1.html">tab1</a></span><span class="op">(</span><span class="va">group</span><span class="op">)</span></span></code></pre></div>
 <p><img src="exploring-data-with-sumvar_files/figure-html/categorical-1.png" width="672"></p>
-<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 3</span></span></span>
-<span><span class="co">#&gt;   Category Frequency Percent</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> C               71 35.5   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> A               66 33.0   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> B               63 31.5   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Total          200 100.0</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="check-for-duplicate-and-missing-data">Check for duplicate and missing data<a class="anchor" aria-label="anchor" href="#check-for-duplicate-and-missing-data"></a>
 </h2>
 <p>To explore the proportion of duplicate values and missing values in a
 variable, pass it to <strong>dup()</strong>.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">example_data</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">200</span>, age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">200</span>, mean <span class="op">=</span> <span class="fl">30</span>, sd <span class="op">=</span> <span class="fl">50</span><span class="op">)</span>, digits<span class="op">=</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">example_data</span><span class="op">$</span><span class="va">age</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">200</span>, size <span class="op">=</span> <span class="fl">15</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span>  <span class="co"># Replace 20 values with missing.</span></span>
 <span></span>
@@ -201,7 +194,7 @@ variable, pass it to <strong>dup()</strong>.</p>
 <p>If you send the whole database to <strong>dup()</strong>, it will
 produce a summary of duplicates and missingness in the whole database.
 <strong>Dup()</strong> illustrates with a stacked bar chart.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">example_data</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">200</span>, mean <span class="op">=</span> <span class="fl">30</span>, sd <span class="op">=</span> <span class="fl">50</span><span class="op">)</span>, digits<span class="op">=</span><span class="fl">0</span><span class="op">)</span>,</span>
 <span>                              sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Male"</span>, <span class="st">"Female"</span><span class="op">)</span>, <span class="fl">200</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>                              favourite_colour <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Red"</span>, <span class="st">"Blue"</span>, <span class="st">"Purple"</span><span class="op">)</span>, <span class="fl">200</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
