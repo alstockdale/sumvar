@@ -86,6 +86,23 @@ df2 %>% tab1(group)
 ```
 
 
+# Two-way tables
+
+**tab()** creates a cross-tabulation of two categorical variables. By default it shows counts and row percentages, with row and column totals.
+
+```{r crosstab}
+df_tab <- dplyr::tibble(
+  treatment = sample(c("control", "treatment"), 100, replace = TRUE),
+  outcome   = sample(c("improved", "stable", "worse"), 100, replace = TRUE)
+)
+
+df_tab %>% tab(treatment, outcome)
+df_tab %>% tab(treatment, outcome, show = "col")  # column percentages
+df_tab %>% tab(treatment, outcome, test = "chi")  # with chi-squared test
+result <- df_tab %>% tab(treatment, outcome)      # save as tibble
+```
+
+
 # Check for duplicate and missing data
 
 To explore the proportion of duplicate values and missing values in a variable, pass it to **dup()**. 
@@ -93,7 +110,7 @@ To explore the proportion of duplicate values and missing values in a variable, 
 
 ```{r duplicate}
 example_data <- dplyr::tibble(id = 1:200, age = round(rnorm(200, mean = 30, sd = 50), digits=0))
-example_data$age[sample(1:200, size = 15)] <- NA  # Replace 20 values with missing.
+example_data$age[sample(1:200, size = 15)] <- NA  # Replace 15 values with missing.
 
 example_data %>% dup(age)
 ```
@@ -111,4 +128,14 @@ example_data$sex[sample(1:200, size = 32)] <- NA  # Replace 32 values with missi
 dup(example_data)
 ```
 
+## Automated reports with explorer()
 
+`explorer()` generates a single HTML or PDF report summarising all variables in a data frame — continuous, date, categorical, duplicates, and missing data — in one step.
+
+```{r explorer, eval=FALSE}
+explorer(example_data)                      # HTML report (default)
+explorer(example_data, format = "pdf")      # PDF report
+explorer(example_data, id_var = "id")       # exclude an identifier column
+```
+
+When run interactively, `explorer()` will prompt you to confirm whether any columns named `id` or `pid` should be excluded from summaries. The report is written to the working directory and opened automatically in the browser.

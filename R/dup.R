@@ -13,7 +13,8 @@ utils::globalVariables(c(
 #' @return A tibble with the number and percentage of duplicate values found, and the number of missing values (NA), together with percentages.
 #'
 #' @importFrom magrittr %>%
-#' @importFrom dplyr tibble pull count mutate arrange bind_rows n desc rename group_by ungroup
+#' @importFrom dplyr tibble pull count mutate arrange bind_rows n desc rename group_by ungroup case_match
+#' @importFrom tidyr pivot_longer
 #' @importFrom stats na.omit
 #' @importFrom purrr map_dfr
 #' @importFrom rlang enexpr enquo as_label
@@ -65,10 +66,11 @@ dup <- function(data, var = NULL) {
       dplyr::mutate(Proportion = Count / n[1]) %>%
       dplyr::ungroup() %>%
       dplyr::mutate(
-        Category = dplyr::recode(Category,
-                                 n_unique = "Unique",
-                                 n_duplicate = "Duplicate",
-                                 n_missing = "Missing")
+        Category = dplyr::case_match(Category,
+          "n_unique"    ~ "Unique",
+          "n_duplicate" ~ "Duplicate",
+          "n_missing"   ~ "Missing"
+        )
       )
 
     # To keep order of stacking: Unique (bottom), Duplicate, Missing (top)
@@ -90,7 +92,7 @@ dup <- function(data, var = NULL) {
       ggplot2::geom_bar(stat = "identity", width = 0.7) +
       ggplot2::geom_text(
         ggplot2::aes(
-          y = 1-ymid,
+          y = 1 - ymid,
           label = percent_label
         ),
         size = 3,
@@ -129,7 +131,7 @@ dup <- function(data, var = NULL) {
       ggplot2::geom_bar(stat = "identity", width = 0.5) +
       ggplot2::geom_text(
         ggplot2::aes(
-          y = 1-ymid,
+          y = 1 - ymid,
           label = percent_label
         ),
         size = 4,

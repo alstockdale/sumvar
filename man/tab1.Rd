@@ -4,14 +4,17 @@
 \alias{tab1}
 \title{Summarise a categorial variable}
 \usage{
-tab1(data, variable, dp = 1)
+tab1(data, variable, ..., dp = 1)
 }
 \arguments{
 \item{data}{The data frame or tibble}
 
 \item{variable}{The categorical variable you would like to summarise}
 
-\item{dp}{The number of decimal places for percentages (default=2)}
+\item{...}{Not used. Passing additional variables raises an informative
+error suggesting \code{tab()} for two-way tables.}
+
+\item{dp}{The number of decimal places for percentages (default=1)}
 }
 \value{
 A tibble with frequencies and percentages

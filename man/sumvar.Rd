@@ -28,6 +28,6 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Alexander Stockdale \email{a.stockdale@liverpool.ac.uk}
+\strong{Maintainer}: Alexander Stockdale \email{a.stockdale@liverpool.ac.uk} [copyright holder]
 
 }

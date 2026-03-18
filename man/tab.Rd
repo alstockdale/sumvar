@@ -2,36 +2,65 @@
 % Please edit documentation in R/tab.R
 \name{tab}
 \alias{tab}
-\title{Create a cross-tabulation of two categorial variables}
+\title{Create a cross-tabulation of two categorical variables}
 \usage{
-tab(data, variable1, variable2, test = "none")
+tab(
+  data,
+  variable1,
+  variable2,
+  show = c("row", "col", "n"),
+  test = c("both", "chi", "exact", "none"),
+  totals = TRUE,
+  dp = 1
+)
 }
 \arguments{
-\item{data}{The data frame or tibble}
+\item{data}{The data frame or tibble.}
 
-\item{variable1}{The first categorical variable}
+\item{variable1}{The row variable (first categorical variable).}
 
-\item{variable2}{The second categorical variable}
+\item{variable2}{The column variable (second categorical variable).}
 
-\item{test}{Optional frequentist hypothesis test, use test=exact for Fisher's exact or test=chi for Chi squared}
+\item{show}{What to display in each cell: \code{"row"} (default) shows
+\code{n (row\%)}, \code{"col"} shows \code{n (col\%)}, \code{"n"} shows
+counts only.}
+
+\item{test}{Hypothesis test(s) to report: \code{"both"} (default) runs both
+chi-squared and Fisher's exact; \code{"chi"} for chi-squared only;
+\code{"exact"} for Fisher's exact only (falls back to simulated p-value
+for large tables); \code{"none"} to suppress tests.}
+
+\item{totals}{If \code{TRUE} (default), includes a Total column (row totals)
+and a Total row (column totals). Set to \code{FALSE} to suppress both.}
+
+\item{dp}{Number of decimal places for percentages. Default is \code{1}.}
 }
 \value{
-A tibble with a cross-tabulation of frequencies and row percentages
+A wide-format tibble (invisibly) with:
+\itemize{
+\item First column: levels of \code{variable1} (plus \code{"Total"} if
+\code{totals = TRUE}).
+\item For each level of \code{variable2}: \code{{level}_n} (integer count)
+and, when \code{show != "n"}, \code{{level}_pct} (numeric percentage).
+\item \code{total_n}: row totals (when \code{totals = TRUE}).
+\item \code{p_chi}, \code{p_fisher}: p-values on the first row, \code{NA}
+elsewhere (when \code{test = "both"}; individual tests add \code{test},
+\code{statistic}, \code{p_value} instead).
+}
 }
 \description{
-Creates a "n x n" cross-tabulation of two categorical variables, with row percentages.
-Includes options for adding frequentist hypothesis testing.
-
-The function accepts an input from a dplyr pipe "\%>\%" and outputs the results as a tibble.
-
-eg. example_data \%>\% tab(variable1, variable2)
+Creates a cross-tabulation of two categorical variables with row or column
+percentages, row and column totals, and optional hypothesis tests. Prints a
+formatted table to the console (similar to Stata's \code{tab} command) with
+the column variable name displayed as a spanning header above its levels.
 }
 \examples{
-example_data <- dplyr::tibble(id = 1:100, group1 = sample(c("a", "b", "c", "d"),
-                                                  size = 100, replace = TRUE),
-                                                  group2= sample(c("male", "female"),
-                                                  size = 100, replace = TRUE))
-example_data$group1[sample(1:100, size = 10)] <- NA  # Replace 10 with missing
+example_data <- dplyr::tibble(
+  group1 = sample(c("a", "b", "c"), 100, replace = TRUE),
+  group2 = sample(c("male", "female"), 100, replace = TRUE)
+)
 tab(example_data, group1, group2)
-summary <- tab(example_data, group1, group2) # Save summary statistics as a tibble.
+tab(example_data, group1, group2, show = "col")
+tab(example_data, group1, group2, test = "none")
+result <- tab(example_data, group1, group2)
 }

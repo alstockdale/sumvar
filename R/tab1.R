@@ -7,12 +7,14 @@
 #'
 #' @param data The data frame or tibble
 #' @param variable The categorical variable you would like to summarise
-#' @param dp The number of decimal places for percentages (default=2)
+#' @param ... Not used. Passing additional variables raises an informative
+#'   error suggesting \code{tab()} for two-way tables.
+#' @param dp The number of decimal places for percentages (default=1)
 #' @return A tibble with frequencies and percentages
 #'
 #' @importFrom magrittr %>%
 #' @importFrom dplyr tibble pull count mutate arrange bind_rows n desc rename
-#' @importFrom rlang enquos
+#' @importFrom rlang enquo as_label
 #' @importFrom ggplot2 aes ggplot geom_col geom_text coord_flip theme_minimal labs theme margin
 #' @importFrom stats reorder
 #' @examples
@@ -22,7 +24,11 @@
 #' tab1(example_data, group)
 #' summary <- tab1(example_data, group) # Save summary statistics as a tibble.
 #' @export
-tab1 <- function(data, variable, dp = 1) {
+tab1 <- function(data, variable, ..., dp = 1) {
+  if (...length() > 0) {
+    stop("The tab1 is for summarising a single categorical variable. To cross-tabulate two variables, use the tab() function instead.",
+         call. = FALSE)
+  }
   var_name <- rlang::as_label(rlang::enquo(variable))
   tab_data <- data %>%
     dplyr::count({{ variable }}) %>%

@@ -2,31 +2,61 @@
 % Please edit documentation in R/dist_sum.R
 \name{dist_sum}
 \alias{dist_sum}
-\title{Explore a continuous variable.}
+\title{Explore a continuous variable}
 \usage{
 dist_sum(data, var, by = NULL)
 }
 \arguments{
 \item{data}{The data frame or tibble}
 
-\item{var}{The variable you would like to summarise}
+\item{var}{The continuous variable to summarise}
 
-\item{by}{The grouping variable}
+\item{by}{Optional grouping variable}
 }
 \value{
-A tibble with a summary of the variable frequency (n), number of missing observations (n_miss), median,
-interquartile range, mean, SD, 95\% confidence intervals of the mean (using the Z distribution), and density plots.
-
-Shows the T test (p_ttest) and Wilcoxon rank sum (p_wilcox) hypothesis tests when there are two groups
-And an Anova test (p_anova) and Kruskal-Wallis test (p_kruskal) when there are three or more groups.
+A tibble with one row per group (or one row when ungrouped) containing
+the following columns:
+\describe{
+\item{\code{n}}{Number of non-missing observations.}
+\item{\code{n_miss}}{Number of missing (NA) values.}
+\item{\code{median}}{Median value.}
+\item{\code{p25}, \code{p75}}{25th and 75th percentiles (interquartile range boundaries).}
+\item{\code{mean}}{Arithmetic mean.}
+\item{\code{sd}}{Standard deviation.}
+\item{\code{ci_lower}, \code{ci_upper}}{Lower and upper bounds of the 95\% confidence
+interval for the mean. Uses the t-distribution when n < 30, and the
+Z-distribution when n >= 30.}
+\item{\code{min}, \code{max}}{Minimum and maximum observed values.}
+\item{\code{n_outliers}}{Count of values more than 1.5 x IQR below Q1 or above Q3
+(Tukey fence method).}
+\item{\code{shapiro_p}}{P-value from the Shapiro-Wilk test of normality. Returns
+\code{NA} when n < 3 or n > 5000 (outside the valid range of the test).}
+\item{\code{normal}}{Logical. \code{TRUE} if \code{shapiro_p > 0.05}, indicating no
+significant departure from normality at the 5\% level.}
+\item{\code{p_ttest}}{Shown when two groups are compared. P-value from an independent
+samples t-test, testing whether the means of the two groups differ. Assumes
+approximately normal distributions or large samples. All p-values are reported on
+the first row only; remaining rows contain \code{NA}.}
+\item{\code{p_wilcox}}{Shown when two groups are compared. P-value from the Wilcoxon
+rank-sum test (Mann-Whitney U test), a non-parametric alternative to the t-test.
+Preferred over \code{p_ttest} when data are skewed, ordinal, or contain outliers,
+as it compares ranks rather than means and makes no distributional assumptions.}
+\item{\code{p_anova}}{Shown when three or more groups are compared. P-value from a
+one-way analysis of variance (ANOVA) F-test, testing whether at least one group mean
+differs from the others. Assumes approximately normal distributions and equal
+variances across groups.}
+\item{\code{p_kruskal}}{Shown when three or more groups are compared. P-value from the
+Kruskal-Wallis test, a non-parametric alternative to one-way ANOVA. Preferred over
+\code{p_anova} when data are skewed or the normality assumption is not met, as it
+compares rank distributions and makes no distributional assumptions.}
+}
 }
 \description{
-Summarises the median, interquartile range, mean, standard deviation, confidence intervals of the mean and produces a density plot, stratified by a second grouping variable.
+Summarises a continuous variable, returning a tibble of descriptive statistics and a plot.
+When a grouping variable is supplied, results are stratified by group.
 
-Provides frequentist hypothesis tests for comparison between groups: T test and Wilcoxon rank sum for 2 groups,
-Anova and Kruskall wallis test for 3 or more groups.
-
-The function accepts an input from a dplyr pipe "\%>\%" and outputs the results as a tibble.
+For two groups, a t-test and Wilcoxon rank-sum test are reported. For three or more groups,
+a one-way ANOVA and Kruskal-Wallis test are reported.
 }
 \examples{
 example_data <- dplyr::tibble(id = 1:100, age = rnorm(100, mean = 30, sd = 10),

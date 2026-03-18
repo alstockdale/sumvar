@@ -1,20 +1,22 @@
 Package: sumvar
-Title: Summarise Continuous, Date and Categorical Variables, Check for Duplicates and Missing Data
-Version: 0.2
+Title: Summarise and Explore Continuous, Categorical and Date Variables
+Version: 0.2.0
 Authors@R: 
-    person("Alexander", "Stockdale", , "a.stockdale@liverpool.ac.uk", role = c("aut", "cre"))
-Description: Explore continuous, date and categorical variables. 'sumvar' aims to bring the ease and simplicity of the "sum" and "tab" functions from 'stata'. 
-SystemRequirements: LaTeX
+    person("Alexander", "Stockdale", , "a.stockdale@liverpool.ac.uk", role = c("aut", "cre", "cph"))
+Description: Explore continuous, date and categorical variables with summary
+    statistics, visualisations, and frequency tables. Brings the ease and
+    simplicity of the sum and tab commands from 'Stata' to 'R', including
+    support for two-way cross-tabulations, hypothesis tests, duplicate and
+    missing data exploration, and automated HTML or PDF exploratory reports.
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Imports:
     cli,
     dplyr,
     ggplot2,
     kableExtra,
     knitr,
-    lubridate,
     magrittr,
     patchwork,
     purrr,

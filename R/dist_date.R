@@ -14,8 +14,9 @@ utils::globalVariables("values")
 #'   enquo bind_rows row_number
 #' @importFrom ggplot2 aes ggplot geom_boxplot geom_violin
 #'   geom_histogram geom_density labs theme_minimal scale_color_discrete scale_fill_discrete
-#' @importFrom stats median qt quantile sd qnorm aov as.formula
-#' @importFrom rlang enquos as_label ':='
+#'   scale_x_date
+#' @importFrom stats median quantile
+#' @importFrom rlang as_label
 #' @importFrom utils globalVariables
 #' @examples
 #' # Example ungrouped
@@ -30,7 +31,6 @@ utils::globalVariables("values")
 #'   grp = sample(1:2, 100, TRUE)
 #' )
 #' dist_date(df2, dt, grp)
-#' # Note this function accepts a pipe from dplyr eg. df %>% dist_date(date_var, group_var)
 #' @seealso \code{\link{dist_sum}} for continuous variables.
 #' @export
 dist_date <- function(data, var, by = NULL) {
@@ -59,8 +59,10 @@ dist_date <- function(data, var, by = NULL) {
         .groups = 'drop'
       )
     # Grouped density plot
-    density_plot <- ggplot2::ggplot(data, ggplot2::aes(x = !!var_enquo, fill= as.factor(!!by_enquo))) +
+    density_plot <- ggplot2::ggplot(data, ggplot2::aes(x = !!var_enquo, fill = as.factor(!!by_enquo))) +
       ggplot2::geom_density(color = "black", alpha = 0.5) +
+      ggplot2::scale_x_date(date_labels = "%b %Y") +
+      ggplot2::scale_fill_discrete(name = group_name) +
       ggplot2::labs(title = paste("Density Plot of", var_name), x = var_name, y = "Density") +
       ggplot2::theme_minimal()
     print(density_plot)
@@ -76,6 +78,7 @@ dist_date <- function(data, var, by = NULL) {
     plot_data <- tibble::tibble(values = var_data)
     histo_plot <- ggplot2::ggplot(plot_data, ggplot2::aes(x = values)) +
       ggplot2::geom_histogram(fill = "skyblue", color = "black", alpha = 0.7, bins = 30) +
+      ggplot2::scale_x_date(date_labels = "%b %Y") +
       ggplot2::labs(
         title = paste("Histogram of", var_name),
         x = var_name, y = "Count"

@@ -1,14 +1,39 @@
-<h1> The sumvar package</h1>
+# sumvar
 
-The sumvar package quickly explores continuous and categorical variables. <br>
-sumvar aims to bring the ease and simplicity of the "sum" and "tab" functions from stata, to R.
+The sumvar package quickly explores continuous, date and categorical variables.
+sumvar brings the ease and simplicity of the `sum` and `tab` commands from
+Stata to R.
 
-  * **dist_sum()** is for exploring a continuous variable. Can stratify by a grouping variable, for example: `df %>% dist_sum (var, group)`.
-  * **dist_date()** is for dates, use the same way as **dist_sum()**.
-  * **tab1()** is to explore a single categorical variable, for example: `df %>% tab1(var)`
-  * **tab()** is for a twoway table from two categorical variables, for example: `df %>% tab(var1, var2)`.
-  * **dup()** explores duplicates and missing values, across a single variable, or a whole database
+## Installation
 
-Both **dist_sum()** and **tab()** include options for performing frequentist hypothesis tests, have a look at the help files.<p>
+Install from CRAN:
 
-All functions are tidyverse/dplyr-friendly and accept the `%>%` pipe from a tibble or data frame, outputting results as a tibble. You can save and further manipulate outputs, e.g. `summary <- df %>% dist_sum(var)`
+```r
+install.packages("sumvar")
+```
+
+Or install the development version from GitHub:
+
+```r
+# install.packages("pak")
+pak::pak("alstockdale/sumvar")
+```
+
+## Functions
+
+- **`dist_sum()`** — explore a continuous variable; stratify by a grouping variable with `df %>% dist_sum(var, group)`.
+- **`dist_date()`** — summarise date variables; usage is the same as `dist_sum()`.
+- **`tab1()`** — frequency table for a single categorical variable: `df %>% tab1(var)`.
+- **`tab()`** — two-way cross-tabulation: `df %>% tab(var1, var2)`.
+- **`dup()`** — explore duplicates and missing values across a single variable or an entire data frame.
+- **`explorer()`** — generate an HTML or PDF exploratory data analysis report for a whole data frame.
+
+Both `dist_sum()` and `tab()` include options for frequentist hypothesis tests.
+See the function help pages for details.
+
+All functions accept the `%>%` pipe from a tibble or data frame and return
+results as a tibble, so outputs can be saved and further manipulated:
+
+```r
+summary <- df %>% dist_sum(var)
+```

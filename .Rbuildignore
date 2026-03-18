@@ -5,3 +5,6 @@
 ^docs$
 ^pkgdown$
 ^\.github$
+^\.claude
+^cran-comments\.md$
+^Rplots\.pdf$

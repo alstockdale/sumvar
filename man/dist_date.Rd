@@ -33,7 +33,6 @@ df2 <- tibble::tibble(
   grp = sample(1:2, 100, TRUE)
 )
 dist_date(df2, dt, grp)
-# Note this function accepts a pipe from dplyr eg. df \%>\% dist_date(date_var, group_var)
 }
 \seealso{
 \code{\link{dist_sum}} for continuous variables.

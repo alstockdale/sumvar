@@ -1,1 +1,1 @@
-utils::globalVariables(c("Category", "Percent", "Frequency"))
+utils::globalVariables(c("Category", "Percent", "Frequency", "shapiro_p"))
