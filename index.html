@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Summarise Continuous, Date and Categorical Variables, Check for Duplicates and Missing Data • sumvar</title>
+<title>Summarise and Explore Continuous, Categorical and Date Variables • sumvar</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
 <link rel="icon" type="”image/svg+xml”" href="favicon.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -15,9 +15,9 @@
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Summarise Continuous, Date and Categorical Variables, Check for Duplicates and Missing Data">
-<meta name="description" content='Explore continuous, date and categorical variables. sumvar aims to bring the ease and simplicity of the "sum" and "tab" functions from stata.'>
-<meta property="og:description" content='Explore continuous, date and categorical variables. sumvar aims to bring the ease and simplicity of the "sum" and "tab" functions from stata.'>
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Summarise and Explore Continuous, Categorical and Date Variables">
+<meta name="description" content="Explore continuous, date and categorical variables with summary statistics, visualisations, and frequency tables. Brings the ease and simplicity of the sum and tab commands from Stata to R, including support for two-way cross-tabulations, hypothesis tests, duplicate and missing data exploration, and automated HTML or PDF exploratory reports.">
+<meta property="og:description" content="Explore continuous, date and categorical variables with summary statistics, visualisations, and frequency tables. Brings the ease and simplicity of the sum and tab commands from Stata to R, including support for two-way cross-tabulations, hypothesis tests, duplicate and missing data exploration, and automated HTML or PDF exploratory reports.">
 <meta property="og:image" content="https://alstockdale.github.io/sumvar/logo.png">
 </head>
 <body>
@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="index.html">sumvar</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,6 +44,7 @@
 <li><a class="dropdown-item" href="articles/exploring-data-with-sumvar.html">Exploring data with sumvar</a></li>
   </ul>
 </li>
+<li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -57,30 +58,46 @@
   </div>
 </nav><div class="container template-home">
 <div class="row">
-  <main id="main" class="col-md-9"><div class="page-header">
-<img src="logo.png" class="logo" alt=""><h1>
-The sumvar package
+  <main id="main" class="col-md-9"><div class="section level1">
+<div class="page-header">
+<img src="logo.png" class="logo" alt=""><h1 id="sumvar">sumvar<a class="anchor" aria-label="anchor" href="#sumvar"></a>
 </h1>
 </div>
-<p>The sumvar package quickly explores continuous and categorical variables. <br> sumvar aims to bring the ease and simplicity of the “sum” and “tab” functions from stata, to R.</p>
+<p>The sumvar package quickly explores continuous, date and categorical variables. sumvar brings the ease and simplicity of the <code>sum</code> and <code>tab</code> commands from Stata to R.</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>Install from CRAN:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"sumvar"</span><span class="op">)</span></span></code></pre></div>
+<p>Or install the development version from GitHub:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"alstockdale/sumvar"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="functions">Functions<a class="anchor" aria-label="anchor" href="#functions"></a>
+</h2>
 <ul>
 <li>
-<strong>dist_sum()</strong> is for exploring a continuous variable. Can stratify by a grouping variable, for example: <code>df %&gt;% dist_sum (var, group)</code>.</li>
+<strong><code><a href="reference/dist_sum.html">dist_sum()</a></code></strong> — explore a continuous variable; stratify by a grouping variable with <code>df %&gt;% dist_sum(var, group)</code>.</li>
 <li>
-<strong>dist_date()</strong> is for dates, use the same way as <strong>dist_sum()</strong>.</li>
+<strong><code><a href="reference/dist_date.html">dist_date()</a></code></strong> — summarise date variables; usage is the same as <code><a href="reference/dist_sum.html">dist_sum()</a></code>.</li>
 <li>
-<strong>tab1()</strong> is to explore a single categorical variable, for example: <code>df %&gt;% tab1(var)</code>
-</li>
+<strong><code><a href="reference/tab1.html">tab1()</a></code></strong> — frequency table for a single categorical variable: <code>df %&gt;% tab1(var)</code>.</li>
 <li>
-<strong>tab()</strong> is for a twoway table from two categorical variables, for example: <code>df %&gt;% tab(var1, var2)</code>.</li>
+<strong><code><a href="reference/tab.html">tab()</a></code></strong> — two-way cross-tabulation: <code>df %&gt;% tab(var1, var2)</code>.</li>
 <li>
-<strong>dup()</strong> explores duplicates and missing values, across a single variable, or a whole database</li>
+<strong><code><a href="reference/dup.html">dup()</a></code></strong> — explore duplicates and missing values across a single variable or an entire data frame.</li>
+<li>
+<strong><code><a href="reference/explorer.html">explorer()</a></code></strong> — generate an HTML or PDF exploratory data analysis report for a whole data frame.</li>
 </ul>
-Both <strong>dist_sum()</strong> and <strong>tab()</strong> include options for performing frequentist hypothesis tests, have a look at the help files.
-<p>
-</p>
-<p>All functions are tidyverse/dplyr-friendly and accept the <code>%&gt;%</code> pipe from a tibble or data frame, outputting results as a tibble. You can save and further manipulate outputs, e.g. <code>summary &lt;- df %&gt;% dist_sum(var)</code></p>
-
+<p>Both <code><a href="reference/dist_sum.html">dist_sum()</a></code> and <code><a href="reference/tab.html">tab()</a></code> include options for frequentist hypothesis tests. See the function help pages for details.</p>
+<p>All functions accept the <code>%&gt;%</code> pipe from a tibble or data frame and return results as a tibble, so outputs can be saved and further manipulated:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">summary</span> <span class="op">&lt;-</span> <span class="va">df</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="reference/dist_sum.html">dist_sum</a></span><span class="op">(</span><span class="va">var</span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
@@ -109,7 +126,7 @@ Both <strong>dist_sum()</strong> and <strong>tab()</strong> include options for 
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Alexander Stockdale <br><small class="roles"> Author, maintainer </small>   </li>
+<li>Alexander Stockdale <br><small class="roles"> Author, maintainer, copyright holder </small>   </li>
 </ul>
 </div>
 
@@ -124,7 +141,7 @@ Both <strong>dist_sum()</strong> and <strong>tab()</strong> include options for 
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
